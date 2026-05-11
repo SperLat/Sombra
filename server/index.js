@@ -868,6 +868,67 @@ function buildExplorerSuggestions() {
   return SOLANA_EXPLORER_WALLETS.map((entry) => entry.address);
 }
 
+function buildTransactionSuggestions() {
+  return SOLANA_EXPLORER_WALLETS
+    .slice(0, 6)
+    .map((entry) => buildSignature(entry.address));
+}
+
+async function buildExplorerSuggestionsForScope(scope) {
+  if (scope === "tx" && SOLANA_LIVE_EXPLORER) {
+    const liveSignatures = await getRecentLiveSignatures(6);
+    if (liveSignatures.length) {
+      return liveSignatures;
+    }
+  }
+  if (scope === "tx") {
+    return buildTransactionSuggestions();
+  }
+  return buildExplorerSuggestions();
+}
+
+async function getRecentLiveSignatures(limit = 8) {
+  try {
+    const slotResponse = await callSolanaRpc("getSlot", [{ commitment: "finalized" }]);
+    const slot = slotResponse.success ? Number(slotResponse.result) : null;
+    if (!slot) {
+      return [];
+    }
+
+    const signatures = [];
+    for (let offset = 0; offset < 10 && signatures.length < limit; offset += 1) {
+      const blockRes = await callSolanaRpc("getBlock", [slot - offset, {
+        encoding: "json",
+        transactionDetails: "signatures",
+        rewards: false,
+        maxSupportedTransactionVersion: 0
+      }]);
+      const blockSignatures = Array.isArray(blockRes.result?.transactions)
+        ? blockRes.result.transactions
+          .map((entry) => Array.isArray(entry?.transaction?.signatures) ? entry.transaction.signatures[0] : null)
+          .filter(Boolean)
+        : Array.isArray(blockRes.result?.signatures)
+          ? blockRes.result.signatures
+          : [];
+      signatures.push(...blockSignatures.filter((signature) => !signatures.includes(signature)));
+    }
+    return signatures.slice(0, limit);
+  } catch (_error) {
+    return [];
+  }
+}
+
+async function findLiveTransactionSample() {
+  const signatures = await getRecentLiveSignatures(12);
+  for (const signature of signatures) {
+    const transaction = await exploreTransactionFromRpc(signature);
+    if (transaction) {
+      return transaction;
+    }
+  }
+  return null;
+}
+
 function buildSampleStream() {
   const seedWallets = SOLANA_EXPLORER_WALLETS.slice(0, 3).map((entry) => entry.address);
   const seedTxs = seedWallets.map((entry) => buildSignature(entry));
@@ -991,18 +1052,7 @@ async function buildLiveExplorerStream() {
       }
     }
 
-    const latestBlockRes = await callSolanaRpc("getBlock", [slot, {
-      encoding: "json",
-      transactionDetails: "signatures",
-      rewards: false
-    }]);
-    const signatures = Array.isArray(latestBlockRes.result?.transactions)
-      ? latestBlockRes.result.transactions
-        .map((entry) => Array.isArray(entry?.transaction?.signatures) ? entry.transaction.signatures[0] : null)
-        .filter(Boolean)
-      : Array.isArray(latestBlockRes.result?.signatures)
-        ? latestBlockRes.result.signatures
-        : [];
+    const signatures = await getRecentLiveSignatures(4);
     rows.push(...signatures.slice(0, 4).map((signature) => ({
       type: "tx",
       id: signature,
@@ -1421,6 +1471,34 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  if (pathname === "/api/explorer/live-transaction-sample") {
+    if (method !== "GET") {
+      sendJson(res, 405, { success: false, error: "Method not allowed" });
+      return;
+    }
+    if (!SOLANA_LIVE_EXPLORER) {
+      sendJson(res, 503, {
+        success: false,
+        error: "Live Solana RPC is disabled for this deployment.",
+        scope: "tx",
+        suggestions: buildTransactionSuggestions()
+      });
+      return;
+    }
+    const transaction = await findLiveTransactionSample();
+    if (transaction) {
+      sendJson(res, 200, { success: true, result: transaction });
+      return;
+    }
+    sendJson(res, 404, {
+      success: false,
+      error: "No recent transaction was retrievable from the configured Solana RPC. Try a newer signature or check RPC transaction-history support.",
+      scope: "tx",
+      suggestions: await buildExplorerSuggestionsForScope("tx")
+    });
+    return;
+  }
+
   if (pathname === "/api/explorer/search") {
     if (method !== "GET") {
       sendJson(res, 405, { success: false, error: "Method not allowed" });
@@ -1452,7 +1530,8 @@ const server = http.createServer(async (req, res) => {
       sendJson(res, 404, {
         success: false,
         error: "Transaction not found from live Solana RPC",
-        suggestions: buildExplorerSuggestions()
+        scope: "tx",
+        suggestions: await buildExplorerSuggestionsForScope("tx")
       });
       return;
     }
@@ -1466,6 +1545,7 @@ const server = http.createServer(async (req, res) => {
       sendJson(res, 404, {
         success: false,
         error: "Block not found from live Solana RPC",
+        scope: "block",
         suggestions: buildExplorerSuggestions()
       });
       return;

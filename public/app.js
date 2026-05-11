@@ -1307,6 +1307,7 @@ function renderExplorerBlock(block) {
 
 function renderExplorerMiss(result) {
   const suggestions = (result && result.suggestions) || [];
+  const suggestionScope = result && result.scope ? result.scope : "auto";
   const errorText = result && result.error ? escapeHtml(result.error) : "Could not resolve this query from the current explorer source.";
   const suggestionList = suggestions
     .slice(0, 6)
@@ -1321,7 +1322,7 @@ function renderExplorerMiss(result) {
           type="button"
           class="explorer-shortcut"
           data-shortcut="${escapeAttribute(itemText)}"
-          data-scope="wallet"
+          data-scope="${escapeAttribute(suggestionScope)}"
           title="Open ${escapeAttribute(itemText)}"
         >
           <span>${index + 1}. ${escapeHtml(compactAddress(itemText, 10))}</span>
@@ -1337,7 +1338,7 @@ function renderExplorerMiss(result) {
         <span class="hero-chip">No match</span>
       </div>
       <p>${errorText}</p>
-      <p class="muted">Try one of the sample candidates below:</p>
+      <p class="muted">Try one of the ${suggestionScope === "tx" ? "recent transaction" : "sample"} candidates below:</p>
       ${suggestionList || `<p class="muted">sample wallets, tx IDs, blocks, or known programs.</p>`}
     </article>
   `;
@@ -1598,6 +1599,7 @@ async function runExplorerSearch() {
     if (!body.success) {
       explorerResult.innerHTML = renderExplorerMiss({
         error: body.error || "No matching explorer object",
+        scope: body.scope || scope,
         suggestions: body.suggestions || []
       });
       if (explorerReasonContext) {
@@ -2191,10 +2193,44 @@ if (explorerRefreshBtn) {
   });
 }
 if (liveTransactionSampleBtn) {
-  liveTransactionSampleBtn.addEventListener("click", () => {
-    const signature = liveTransactionSampleBtn.getAttribute("data-live-tx");
-    if (signature) {
-      openExplorerQuery(signature, "tx");
+  liveTransactionSampleBtn.addEventListener("click", async () => {
+    if (!explorerResult) {
+      return;
+    }
+    const originalText = liveTransactionSampleBtn.textContent;
+    liveTransactionSampleBtn.disabled = true;
+    liveTransactionSampleBtn.textContent = "Finding live sample...";
+    explorerResult.innerHTML = '<p class="muted">Fetching a recent finalized transaction from live Solana RPC...</p>';
+    try {
+      const response = await fetch(`/api/explorer/live-transaction-sample?t=${Date.now()}`, { cache: "no-store" });
+      const body = await response.json();
+      if (!body.success) {
+        explorerResult.innerHTML = renderExplorerMiss({
+          error: body.error || "No recent live transaction found.",
+          scope: body.scope || "tx",
+          suggestions: body.suggestions || []
+        });
+        return;
+      }
+      const signature = body.result?.signature || body.result?.id || "";
+      if (explorerQuery && signature) {
+        explorerQuery.value = signature;
+      }
+      if (explorerScope) {
+        explorerScope.value = "tx";
+      }
+      renderExplorerResult(body.result || {});
+      await loadAudit();
+    } catch (_error) {
+      const fallbackSignature = liveTransactionSampleBtn.getAttribute("data-live-tx");
+      explorerResult.innerHTML = renderExplorerMiss({
+        error: "Live sample request failed. Falling back to the bundled sample signature.",
+        scope: "tx",
+        suggestions: fallbackSignature ? [fallbackSignature] : []
+      });
+    } finally {
+      liveTransactionSampleBtn.disabled = false;
+      liveTransactionSampleBtn.textContent = originalText;
     }
   });
 }
