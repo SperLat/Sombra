@@ -482,6 +482,13 @@ async function exploreTransactionFromRpc(signature) {
   const fee = lamportsToSol(tx.meta?.fee || 0, 9);
   const logCount = Array.isArray(tx.meta?.logMessages) ? tx.meta.logMessages.length : 0;
   const riskScore = Math.min(100, Math.floor((fee * 100) + (logCount * 4) + (tx.meta?.err ? 35 : 5)));
+  const riskLevel = riskScore >= 90 ? "critical" : riskScore >= 70 ? "high" : riskScore >= 35 ? "medium" : "low";
+  const recommendation = riskScore >= 90 ? "BLOCK" : riskScore >= 70 ? "CUE_REVIEW" : "ALLOW";
+  const riskReasons = riskScore >= 90
+    ? ["failed transaction or unusually heavy execution profile", "manual compliance review required before relying on this counterparty"]
+    : riskScore >= 70
+      ? ["elevated log volume or compute profile relative to a simple transfer", "record evidence and review program activity before funds move"]
+      : ["no abnormal fee, failure, or execution signal exceeded the current heuristic threshold"];
   return {
     type: "tx",
     signature,
@@ -509,13 +516,11 @@ async function exploreTransactionFromRpc(signature) {
     innerInstructions: serializeInnerInstructions(tx),
     logMessages: Array.isArray(tx.meta?.logMessages) ? tx.meta.logMessages : [],
     riskScore,
+    riskLevel,
     dataSource: "Live Solana RPC (getTransaction) + Sombra fee/log heuristic",
-    recommendation: riskScore >= 90 ? "BLOCK" : riskScore >= 70 ? "CUE_REVIEW" : "ALLOW",
-    riskTags: riskScore >= 90
-      ? ["wallet concentration", "recent failures"]
-      : riskScore >= 70
-        ? ["latency anomaly", "high fee usage"]
-        : ["normal operation"]
+    recommendation,
+    riskReasons,
+    riskTags: riskReasons
   };
 }
 

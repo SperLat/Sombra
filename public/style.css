@@ -1462,7 +1462,7 @@ button[data-action] {
 .tx-table code,
 .tx-instruction code,
 .tx-log-list code {
-  color: var(--ink);
+  color: #e9fff4;
   font-family: "Space Mono", Consolas, monospace;
   font-size: 0.82rem;
   overflow-wrap: anywhere;
@@ -1520,7 +1520,7 @@ button[data-action] {
 .tx-log-list li {
   border-left: 3px solid var(--accent);
   padding: 8px 10px;
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(255, 255, 255, 0.075);
   border-radius: 8px;
 }
 
@@ -1745,7 +1745,7 @@ body {
 }
 
 .explorer-fact span {
-  color: var(--muted);
+  color: #9aa8c6;
   font-size: 0.76rem;
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -1753,9 +1753,29 @@ body {
 }
 
 .explorer-fact strong {
-  color: var(--ink);
+  color: #f7fbff;
   font-size: 0.95rem;
   overflow-wrap: anywhere;
+}
+
+.explorer-fact .copy-inline {
+  justify-self: start;
+  max-width: max-content;
+}
+
+.explorer-result .tx-table,
+.explorer-result .tx-table td,
+.explorer-result .tx-instruction,
+.explorer-result .tx-instruction p,
+.explorer-result .tx-instruction strong,
+.explorer-result .tx-log-list,
+.explorer-result .tx-log-list li {
+  color: #f7fbff;
+}
+
+.explorer-result .tx-instruction-meta,
+.explorer-result .muted {
+  color: #b6c2dc;
 }
 
 @media (max-width: 1380px) {

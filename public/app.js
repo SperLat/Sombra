@@ -2309,6 +2309,59 @@ function explorerValue(value, fallback = "n/a") {
   return value;
 }
 
+function explorerTimestamp(value) {
+  if (value === undefined || value === null || value === "") {
+    return "n/a";
+  }
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) {
+    return value;
+  }
+  const ms = numeric > 1000000000000 ? numeric : numeric * 1000;
+  return new Date(ms).toLocaleString();
+}
+
+function explorerRiskLevel(tx) {
+  const direct = String(tx.riskLevel || tx.level || "").toLowerCase();
+  if (["low", "medium", "high", "critical", "safe"].includes(direct)) {
+    return direct;
+  }
+  const score = Number(tx.riskScore ?? tx.score);
+  if (!Number.isFinite(score)) {
+    return "unknown";
+  }
+  if (score >= 90) return "critical";
+  if (score >= 70) return "high";
+  if (score >= 35) return "medium";
+  return "low";
+}
+
+function explorerRecommendation(tx) {
+  const direct = tx.recommendation || tx.guardrail;
+  if (direct) {
+    return direct;
+  }
+  const level = explorerRiskLevel(tx);
+  if (level === "critical") return "BLOCK";
+  if (level === "high") return "CUE_REVIEW";
+  if (level === "medium") return "ALLOW_WITH_MONITORING";
+  if (level === "low" || level === "safe") return "ALLOW";
+  return "REVIEW";
+}
+
+function explorerRiskSignals(tx) {
+  if (Array.isArray(tx.riskReasons) && tx.riskReasons.length) {
+    return tx.riskReasons;
+  }
+  if (Array.isArray(tx.riskTags) && tx.riskTags.length) {
+    return tx.riskTags;
+  }
+  if (Array.isArray(tx.signals) && tx.signals.length) {
+    return tx.signals.map(normalizeSignalText).filter(Boolean);
+  }
+  return [];
+}
+
 function renderExplorerFact(label, value, copyValue = "") {
   const safeValue = explorerValue(value);
   return `
@@ -2339,7 +2392,7 @@ function renderExplorerTxOverview(tx) {
         ${renderExplorerFact("Status", tx.status || tx.confirmationStatus)}
         ${renderExplorerFact("Slot", tx.slot)}
         ${renderExplorerFact("Block", tx.block)}
-        ${renderExplorerFact("Timestamp", tx.blockTime)}
+        ${renderExplorerFact("Timestamp", explorerTimestamp(tx.blockTime))}
         ${renderExplorerFact("Version", tx.version)}
         ${renderExplorerFact("Fee", tx.fee !== undefined ? `${tx.fee} SOL` : "")}
         ${renderExplorerFact("Compute units", tx.computeUnitsConsumed)}
@@ -2352,22 +2405,20 @@ function renderExplorerTxOverview(tx) {
 }
 
 function renderExplorerTxRiskNotes(tx) {
-  const signals = Array.isArray(tx.riskReasons) && tx.riskReasons.length
-    ? tx.riskReasons
-    : Array.isArray(tx.signals)
-      ? tx.signals.map(normalizeSignalText).filter(Boolean)
-      : [];
+  const riskLevel = explorerRiskLevel(tx);
+  const recommendation = explorerRecommendation(tx);
+  const signals = explorerRiskSignals(tx);
   return `
     <section class="explorer-card explorer-risk-card">
       <div class="explorer-card-head">
         <div>
           <p class="eyebrow">Risk notes</p>
-          <h4>${escapeHtml(String(tx.riskLevel || tx.level || "unknown").toUpperCase())}</h4>
+          <h4>${escapeHtml(String(riskLevel).toUpperCase())}</h4>
         </div>
-        <span class="risk-chip ${streamRiskClass[tx.riskLevel || tx.level] || "risk-medium"}">Score ${escapeHtml(tx.riskScore ?? tx.score ?? "n/a")}</span>
+        <span class="risk-chip ${streamRiskClass[riskLevel] || "risk-medium"}">Score ${escapeHtml(tx.riskScore ?? tx.score ?? "n/a")}</span>
       </div>
       <div class="explorer-fact-grid compact">
-        ${renderExplorerFact("Recommendation", tx.recommendation || tx.guardrail || "n/a")}
+        ${renderExplorerFact("Recommendation", recommendation)}
         ${renderExplorerFact("Heuristic basis", signals.length ? `${signals.length} signal(s)` : "No high-risk signals")}
       </div>
       ${
