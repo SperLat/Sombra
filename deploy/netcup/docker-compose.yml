@@ -1,0 +1,28 @@
+﻿services:
+  sombra:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      SOLANA_RPC_URL: ${SOLANA_RPC_URL:-https://api.mainnet-beta.solana.com}
+      SOLANA_LIVE_EXPLORER: ${SOLANA_LIVE_EXPLORER:-true}
+      SUPABASE_SERVER_URL: ${SUPABASE_SERVER_URL:-}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-}
+      SUPABASE_AUDIT_TABLE: ${SUPABASE_AUDIT_TABLE:-sombra_audit_events}
+      SUPABASE_FEEDBACK_TABLE: ${SUPABASE_FEEDBACK_TABLE:-sombra_feedback}
+    networks:
+      - coolify
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sombra.rule=Host(`${SOMBRA_HOST}`)"
+      - "traefik.http.routers.sombra.entrypoints=https"
+      - "traefik.http.routers.sombra.tls=true"
+      - "traefik.http.services.sombra.loadbalancer.server.port=4000"
+
+networks:
+  coolify:
+    external: true
+    name: coolify

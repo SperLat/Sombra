@@ -1,0 +1,15 @@
+﻿{
+    "name":  "sombra",
+    "version":  "0.1.0",
+    "private":  false,
+    "description":  "Sombra - Solana-native pre-transaction risk and evidence console",
+    "type":  "commonjs",
+    "scripts":  {
+                    "start":  "node --use-system-ca server/index.js",
+                    "dev":  "node --use-system-ca server/index.js"
+                },
+    "dependencies":  {
+
+                     },
+    "license":  "AGPL-3.0-only"
+}

@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Sombra is a Solana-native AML screening platform for treasury, compliance, exchange, and payment operations teams."
+    />
+    <title>Sombra - Solana Risk Platform</title>
+    <link rel="stylesheet" href="/style.css?v=frontier-20260510-8" />
+  </head>
+  <body class="mode-live">
+    <header class="site-header">
+      <a class="brand" href="#platform" aria-label="Sombra home">
+        <img class="brand-logo" src="/assets/sombra-logo.svg" alt="" aria-hidden="true" />
+        <span>Sombra</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#platform">Platform</a>
+        <a href="#explorer">Explorer</a>
+        <a href="#normal-mode">Risk Check</a>
+        <a href="#launch-contact">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <span id="stream-health" class="source-pill pill-ok">Stream: live</span>
+        <label class="mode-switch" for="demo-toggle">
+          <span>Live</span>
+          <input id="demo-toggle" type="checkbox" aria-label="Toggle demo mode" />
+          <span class="switch-track" aria-hidden="true"></span>
+          <span>Demo</span>
+        </label>
+        <span id="top-nav-mode" class="source-pill">Live screening</span>
+        <a class="btn btn-primary" href="#normal-mode">Run Check</a>
+      </div>
+    </header>
+
+    <main>
+      <section id="platform" class="hero">
+        <div class="hero-inner">
+          <div class="hero-copy">
+            <h1>Sombra</h1>
+            <p class="hero-lede">
+              Solana AML screening for teams that need to stop risky funds before they move.
+            </p>
+            <p class="hero-subcopy">
+              Screen wallets, transactions, blocks, and programs. Get an ALLOW, REVIEW, or BLOCK recommendation with evidence your operators can export.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#normal-mode">Run Risk Check</a>
+              <a class="btn btn-secondary" href="#explorer">Open Explorer</a>
+            </div>
+            <p id="mode-status" class="mode-status">
+              Live mode: production-style checks with editable input and audit visibility.
+            </p>
+          </div>
+
+          <aside class="product-preview" aria-label="Sombra product preview">
+            <div class="preview-header">
+              <span>Risk Console</span>
+              <span class="source-pill pill-ok">Operational</span>
+            </div>
+            <div class="preview-search">
+              <span>Wallet</span>
+              <strong>G3r6...4k9</strong>
+              <span class="risk-chip risk-critical">Block</span>
+            </div>
+            <div class="preview-score">
+              <div>
+                <span>Risk score</span>
+                <strong>96</strong>
+              </div>
+              <div class="score-bars" aria-hidden="true">
+                <span style="width: 28%"></span>
+                <span style="width: 62%"></span>
+                <span style="width: 96%"></span>
+              </div>
+            </div>
+            <ul class="preview-signals">
+              <li><span class="signal-dot critical"></span>Mixer-like churn</li>
+              <li><span class="signal-dot high"></span>New wallet velocity</li>
+              <li><span class="signal-dot warn"></span>Counterparty concentration</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="platform-metrics" aria-label="Platform status">
+        <article>
+          <span>Network</span>
+          <strong id="metric-network">Solana Mainnet</strong>
+          <p id="metric-network-sub">Explorer and checker services online</p>
+        </article>
+        <article>
+          <span>Throughput</span>
+          <strong id="metric-throughput">Syncing</strong>
+          <p id="metric-throughput-sub">Decision latency and network activity</p>
+        </article>
+        <article>
+          <span>Coverage</span>
+          <strong id="metric-coverage">Wallet + tx + block + program</strong>
+          <p id="metric-coverage-sub">Source labeling updates after sync</p>
+        </article>
+        <article>
+          <span>Decision quality</span>
+          <strong id="metric-decision">4 / 5</strong>
+          <p id="metric-decision-sub">Based on local assessment history</p>
+        </article>
+      </section>
+
+      <section class="console-shell" aria-labelledby="console-title">
+        <div class="console-head">
+          <div>
+            <h2 id="console-title">Platform Console</h2>
+            <p>
+              Search chain data, run risk checks, capture rationale, and export evidence from one working surface.
+            </p>
+          </div>
+          <nav class="console-tabs" aria-label="Console sections">
+            <a href="#normal-mode">Risk Check</a>
+            <a href="#explorer">Explorer</a>
+            <a href="#audit-section">Audit Trail</a>
+            <a class="demo-tab" href="#demo-mode">Demo Script</a>
+          </nav>
+        </div>
+
+        <div class="console-grid">
+          <div class="console-main">
+            <section class="workflow-deck tool-panel" aria-label="Sombra workflow">
+              <div class="workflow-deck-head">
+                <div>
+                  <p class="eyebrow">Workflow deck</p>
+                  <h3>Screen, inspect, and monitor in one flow</h3>
+                </div>
+                <div class="workflow-tabs" role="tablist" aria-label="Workflow views">
+                  <button type="button" class="workflow-tab is-active" data-workflow-tab="risk">Risk Check</button>
+                  <button type="button" class="workflow-tab" data-workflow-tab="scenarios">Scenarios</button>
+                  <button type="button" class="workflow-tab" data-workflow-tab="explorer">Explorer</button>
+                  <button type="button" class="workflow-tab" data-workflow-tab="stream">Stream</button>
+                </div>
+              </div>
+
+            <div id="normal-mode" class="console-section workflow-panel is-active" data-workflow-panel="risk">
+              <section class="tool-panel risk-check-panel">
+                <div class="section-head">
+                  <div>
+                    <h3>Transaction Risk Check</h3>
+                    <p>Assess a source or destination wallet before funds move.</p>
+                  </div>
+                  <span class="source-pill">Live input</span>
+                </div>
+
+                <form id="check-form" class="risk-form">
+                  <div class="field-row">
+                    <label for="direction">Direction</label>
+                    <select id="direction" name="direction" aria-label="Transaction direction">
+                      <option value="send">Sending funds</option>
+                      <option value="receive">Receiving funds</option>
+                    </select>
+                  </div>
+
+                  <div class="field-row">
+                    <label for="wallet">Recipient / source wallet</label>
+                    <input id="wallet" name="wallet" type="text" placeholder="Enter base58 wallet" inputmode="text" required />
+                  </div>
+
+                  <div class="form-grid">
+                    <div class="field-row">
+                      <label for="amount">Amount</label>
+                      <input id="amount" name="amount" type="number" min="0" step="0.01" placeholder="0.00" required />
+                    </div>
+                    <div class="field-row">
+                      <label for="asset">Asset</label>
+                      <input id="asset" name="asset" type="text" value="SOL" />
+                    </div>
+                  </div>
+
+                  <div class="field-row">
+                    <label for="metadata">Advanced metadata</label>
+                    <textarea
+                      id="metadata"
+                      name="metadata"
+                      rows="5"
+                      placeholder='{"walletAgeDays": 30, "txCount24h": 15, "uniqueCounterparties": 9, "failRate": 0.05, "mixingScore": 0.1}'
+                    ></textarea>
+                  </div>
+
+                  <div class="form-actions">
+                    <label class="inline-check">
+                      <input id="auto-enrich" type="checkbox" checked />
+                      <span>Auto-enrich if metadata is missing</span>
+                    </label>
+                    <button id="enrich-btn" type="button" class="btn btn-secondary">Fetch Context</button>
+                    <button id="submit-btn" type="submit" class="btn btn-primary">Run Risk Check</button>
+                  </div>
+                </form>
+              </section>
+
+            </div>
+
+              <section class="tool-panel compact-panel workflow-panel" data-workflow-panel="scenarios">
+                <div class="section-head">
+                  <div>
+                    <h3>Quick Scenarios</h3>
+                    <p>Seed the checker with common treasury cases.</p>
+                  </div>
+                </div>
+                <div id="scenario-list" class="scenario-list"></div>
+              </section>
+            <section id="explorer" class="console-section tool-panel explorer-panel workflow-panel" data-workflow-panel="explorer">
+              <div class="section-head">
+                <div>
+                  <h3>Solana Explorer</h3>
+                  <p>Search wallets, signatures, blocks, and programs with risk context.</p>
+                </div>
+                <button id="explorer-refresh" type="button" class="btn btn-secondary">Refresh</button>
+              </div>
+
+              <div id="explorer-data-layer" class="explorer-data-layer">
+                <span id="explorer-source-network" class="source-pill">Network metrics: live / local mix</span>
+                <span id="explorer-source-wallets" class="source-pill">Wallet risk labels: deterministic</span>
+                <span id="explorer-source-mode" class="source-pill">Live RPC switch is off</span>
+              </div>
+              <p id="explorer-data-mode-note" class="data-note">
+                Data source status: network metrics are best-effort live; wallet risk labels use deterministic heuristics unless live RPC is enabled.
+              </p>
+
+              <div class="explorer-controls">
+                <select id="explorer-scope">
+                  <option value="auto">Auto</option>
+                  <option value="wallet">Wallet</option>
+                  <option value="tx">Transaction</option>
+                  <option value="block">Block</option>
+                  <option value="program">Program</option>
+                </select>
+                <input id="explorer-query" type="text" placeholder="Wallet, signature, block number, or program id" />
+                <button id="explorer-search" type="button" class="btn btn-primary">Search Chain</button>
+              </div>
+              <div class="live-sample-actions">
+                <button
+                  id="live-transaction-sample"
+                  type="button"
+                  class="btn btn-secondary"
+                  data-live-tx="4RR17QMdN9PSufmnBscP8cvLfjRUdSYS6yP1WcZ3JuTq2nJgsZYyZgY2rvVzfK9tqZjkuk4hbzbE6175e8M29tyU"
+                >
+                  Try live transaction sample
+                </button>
+                <span>Uses a real Solana mainnet signature and renders live RPC transaction details.</span>
+              </div>
+
+              <div id="explorer-stats" class="explorer-stats"></div>
+              <div id="explorer-shortcuts" class="explorer-shortcuts"></div>
+
+              <div class="explorer-legend">
+                <span class="risk-chip risk-low">Low</span>
+                <span class="risk-chip risk-medium">Medium</span>
+                <span class="risk-chip risk-high">High</span>
+                <span class="risk-chip risk-critical">Critical</span>
+              </div>
+            </section>
+
+            <section id="stream-panel" class="console-section tool-panel stream-panel workflow-panel" data-workflow-panel="stream">
+              <div class="stream-head">
+                <div>
+                  <h3>Stream</h3>
+                  <p>Monitor recent Solana activity. Chain source and risk source are labeled separately.</p>
+                </div>
+                <button id="explorer-stream-refresh" type="button" class="btn btn-secondary">Reload Stream</button>
+              </div>
+              <p class="data-note">Chain source: Live Solana RPC when available. Risk source: Sombra heuristic.</p>
+              <div id="explorer-stream" class="explorer-stream"></div>
+            </section>
+            </section>
+
+            <section id="investigation-output" class="console-section tool-panel investigation-output">
+              <div class="section-head">
+                <div>
+                  <h3>Investigation Output</h3>
+                  <p>Searches, ranked wallets, and stream selections render here before they become audit evidence.</p>
+                </div>
+              </div>
+              <article id="explorer-rank-reason" class="explorer-rank-reason">
+                Select a ranked wallet or stream row to see the exact risk rationale.
+              </article>
+              <article id="explorer-result" class="explorer-result">Search the explorer to render chain matches and risk analysis.</article>
+            </section>
+
+            <section id="demo-mode" class="console-section tool-panel hidden">
+              <div class="section-head">
+                <div>
+                  <h3>Demo Script</h3>
+                  <p>Run curated ALLOW, REVIEW, and BLOCK cases for a guided walkthrough.</p>
+                </div>
+                <button id="run-demo" type="button" class="btn btn-primary">Run Full Script</button>
+              </div>
+              <p id="demo-status" class="data-note">Run three curated checks: ALLOW, CUE_REVIEW, and BLOCK.</p>
+              <ol id="flow-checklist" class="flow-checklist"></ol>
+              <ol id="demo-script" class="demo-script"></ol>
+              <div id="demo-result-note" class="demo-note">
+                Run the full script to write assessment and decision events into the audit trail.
+              </div>
+            </section>
+
+            <section id="audit-section" class="console-section tool-panel">
+              <div class="section-head">
+                <div>
+                  <h3>Audit Trail</h3>
+                  <p>Review, clear, and export decision evidence.</p>
+                </div>
+                <div class="audit-actions">
+                  <button id="refresh-audit" type="button" class="btn btn-secondary">Refresh</button>
+                  <button id="clear-audit" type="button" class="btn btn-secondary">Clear</button>
+                  <button id="export-audit-json" type="button" class="btn btn-secondary">Export JSON</button>
+                  <button id="export-audit-csv" type="button" class="btn btn-secondary">Export CSV</button>
+                </div>
+              </div>
+              <div id="server-audit" class="server-audit"></div>
+            </section>
+          </div>
+
+          <aside class="console-side">
+            <section id="status" class="status-panel hidden"></section>
+
+            <section class="side-panel recent-checks-panel">
+              <h3>Recent Checks</h3>
+              <p>Local browser history for this workstation.</p>
+              <div id="recent-checks" class="recent-checks"></div>
+            </section>
+
+            <section class="side-panel">
+              <h3>Execution Console</h3>
+              <ul class="quick-ops">
+                <li><span>Mode</span><strong id="console-mode">Live screening</strong></li>
+                <li><span>Audit</span><strong>JSON + CSV</strong></li>
+                <li><span>Source</span><strong>Live + deterministic fallback</strong></li>
+                <li><span>Policy</span><strong>ALLOW / REVIEW / BLOCK</strong></li>
+              </ul>
+            </section>
+
+            <section class="side-panel signal-panel">
+              <h3>Guardrail Model</h3>
+              <div class="signal-row">
+                <span class="risk-chip risk-low">Allow</span>
+                <p>Low-risk counterparties proceed with logged evidence.</p>
+              </div>
+              <div class="signal-row">
+                <span class="risk-chip risk-medium">Review</span>
+                <p>Unusual velocity or concentration requires operator review.</p>
+              </div>
+              <div class="signal-row">
+                <span class="risk-chip risk-critical">Block</span>
+                <p>Critical signals stop the transaction pending override.</p>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </section>
+
+      <section class="capability-band">
+        <div>
+          <h2>Risk operations built for Solana teams</h2>
+          <p>
+            Sombra turns forensic checks into a daily operating layer for treasury, compliance, exchange ops, and payment teams.
+          </p>
+        </div>
+        <div class="capability-grid">
+          <article>
+            <h3>Transaction Screening</h3>
+            <p>Assess wallet age, transaction velocity, failures, concentration, and known-risk patterns.</p>
+          </article>
+          <article>
+            <h3>Explorer Intelligence</h3>
+            <p>Inspect wallets, blocks, programs, and signatures without losing risk context.</p>
+          </article>
+          <article>
+            <h3>Evidence Capture</h3>
+            <p>Export JSON or CSV records for finance, compliance, incident response, and legal review.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="frontier-band" aria-label="Colosseum Frontier alignment">
+        <div>
+          <p class="eyebrow">Built for Solana Frontier</p>
+          <h2>Startup-first compliance infrastructure for Solana operators</h2>
+          <p>
+            Sombra is designed as a working product and venture-scale wedge: screen before funds move, inspect live Solana
+            objects, and export evidence for teams that need transparent open-source controls.
+          </p>
+        </div>
+        <div class="frontier-points">
+          <article>
+            <strong>Solana-native</strong>
+            <span>Signatures, slots, account inputs, compute units, program logs, and blockhashes.</span>
+          </article>
+          <article>
+            <strong>Working demo</strong>
+            <span>Live mode for real searches, demo mode for a guided judge walkthrough.</span>
+          </article>
+          <article>
+            <strong>Open-source core</strong>
+            <span>AGPL-licensed product core that Solana builders can inspect, run, modify, and extend.</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="image-band" aria-label="Sombra operating context">
+        <img src="/assets/analyst-tablet.jpg" alt="Risk analyst reviewing transaction controls" />
+        <img src="/assets/market-monitor.jpg" alt="Market monitoring screen with operational data" />
+        <img src="/assets/profiler-glasses.jpg" alt="Forensic analysis workstation" />
+      </section>
+
+      <section id="launch-contact" class="contact-section">
+        <div>
+          <h2>Open-source collaboration</h2>
+          <p>Share feedback, integration needs, or Solana data sources that would make Sombra more useful.</p>
+        </div>
+        <form id="launch-contact-form" class="contact-form">
+          <div class="form-grid">
+            <div class="field-row">
+              <label for="lead-name">Your name</label>
+              <input id="lead-name" type="text" required placeholder="Alex Morgan" />
+            </div>
+            <div class="field-row">
+              <label for="lead-email">Work email</label>
+              <input id="lead-email" type="email" required placeholder="operations@company.com" />
+            </div>
+            <div class="field-row">
+              <label for="lead-company">Company</label>
+              <input id="lead-company" type="text" required placeholder="WalletCo" />
+            </div>
+            <div class="field-row">
+              <label for="lead-plan">Interest area</label>
+              <select id="lead-plan">
+                <option value="Product feedback">Product feedback</option>
+                <option value="Data integration">Data integration</option>
+                <option value="Open-source contribution">Open-source contribution</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row">
+            <label for="lead-objective">Operational need</label>
+            <textarea id="lead-objective" rows="4" required placeholder="Payout checker for treasury ops handling 1000 tx/day."></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Send Feedback</button>
+            <a href="#normal-mode" class="btn btn-secondary">Test Checker First</a>
+          </div>
+          <p id="launch-contact-status" class="mode-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="/app.js?v=frontier-20260510-8" defer></script>
+  </body>
+</html>

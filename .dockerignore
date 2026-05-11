@@ -1,0 +1,11 @@
+﻿node_modules
+npm-debug.log*
+.git
+.gitignore
+.env
+.env.*
+server/audit-log.jsonl
+server/leads.jsonl
+coverage
+dist
+.DS_Store
