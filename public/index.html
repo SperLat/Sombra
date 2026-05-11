@@ -8,7 +8,7 @@
       content="Sombra is a Solana-native AML screening platform for treasury, compliance, exchange, and payment operations teams."
     />
     <title>Sombra - Solana Risk Platform</title>
-    <link rel="stylesheet" href="/style.css?v=frontier-20260511-2" />
+    <link rel="stylesheet" href="/style.css?v=frontier-20260511-3" />
   </head>
   <body class="mode-live">
     <header class="site-header">
@@ -136,7 +136,6 @@
                 </div>
                 <div class="workflow-tabs" role="tablist" aria-label="Workflow views">
                   <button type="button" class="workflow-tab is-active" data-workflow-tab="risk">Risk Check</button>
-                  <button type="button" class="workflow-tab" data-workflow-tab="scenarios">Scenarios</button>
                   <button type="button" class="workflow-tab" data-workflow-tab="explorer">Explorer</button>
                   <button type="button" class="workflow-tab" data-workflow-tab="stream">Stream</button>
                 </div>
@@ -196,19 +195,18 @@
                     <button id="submit-btn" type="submit" class="btn btn-primary">Run Risk Check</button>
                   </div>
                 </form>
+
+                <div class="risk-wallet-samples">
+                  <div>
+                    <p class="eyebrow">Wallet samples</p>
+                    <h4>Run common pre-transfer checks</h4>
+                    <p>Use these examples to seed the checker with low, review, and block outcomes.</p>
+                  </div>
+                  <div id="scenario-list" class="scenario-list"></div>
+                </div>
               </section>
 
             </div>
-
-              <section class="tool-panel compact-panel workflow-panel" data-workflow-panel="scenarios">
-                <div class="section-head">
-                  <div>
-                    <h3>Quick Scenarios</h3>
-                    <p>Seed the checker with common treasury cases.</p>
-                  </div>
-                </div>
-                <div id="scenario-list" class="scenario-list"></div>
-              </section>
             <section id="explorer" class="console-section tool-panel explorer-panel workflow-panel" data-workflow-panel="explorer">
               <div class="section-head">
                 <div>
@@ -453,6 +451,6 @@
       </section>
     </main>
 
-    <script src="/app.js?v=frontier-20260511-2" defer></script>
+    <script src="/app.js?v=frontier-20260511-3" defer></script>
   </body>
 </html>

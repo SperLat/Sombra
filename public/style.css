@@ -721,6 +721,28 @@ textarea:focus {
   gap: 8px;
 }
 
+.risk-wallet-samples {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-dark);
+}
+
+.risk-wallet-samples h4,
+.risk-wallet-samples p {
+  margin: 0;
+}
+
+.risk-wallet-samples > div:first-child {
+  display: grid;
+  gap: 4px;
+}
+
+.risk-wallet-samples > div:first-child p:last-child {
+  color: #b6c2dc;
+}
+
 .quick-ops,
 .demo-script,
 .flow-checklist {
