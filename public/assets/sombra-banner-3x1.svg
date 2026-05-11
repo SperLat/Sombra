@@ -1,0 +1,68 @@
+<svg width="1800" height="600" viewBox="0 0 1800 600" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Sombra banner</title>
+  <desc id="desc">Wide Project Sombra banner for a Solana AML and risk intelligence platform.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1800" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7FAFC"/>
+      <stop offset="0.42" stop-color="#E8EEF6"/>
+      <stop offset="1" stop-color="#DCE6F1"/>
+    </linearGradient>
+    <linearGradient id="dark" x1="300" y1="20" x2="1550" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111827"/>
+      <stop offset="0.62" stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#030712"/>
+    </linearGradient>
+    <linearGradient id="signal" x1="150" y1="82" x2="555" y2="500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4DE3B3"/>
+      <stop offset="0.52" stop-color="#39A8FF"/>
+      <stop offset="1" stop-color="#F6C659"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1280 240) rotate(90) scale(520 720)">
+      <stop stop-color="#4DE3B3" stop-opacity="0.24"/>
+      <stop offset="0.5" stop-color="#39A8FF" stop-opacity="0.1"/>
+      <stop offset="1" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" stroke="#F8FAFC" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+    <filter id="shadow" x="40" y="40" width="640" height="520" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="28" stdDeviation="32" flood-color="#020617" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <rect width="1800" height="600" rx="56" fill="url(#bg)"/>
+  <rect x="36" y="36" width="1728" height="528" rx="44" fill="url(#dark)"/>
+  <rect x="36" y="36" width="1728" height="528" rx="44" fill="url(#grid)"/>
+  <circle cx="1280" cy="240" r="520" fill="url(#glow)"/>
+  <path d="M1065 132H1588" stroke="#4DE3B3" stroke-opacity="0.35" stroke-width="2"/>
+  <path d="M1065 218H1664" stroke="#39A8FF" stroke-opacity="0.22" stroke-width="2"/>
+  <path d="M1065 304H1512" stroke="#F6C659" stroke-opacity="0.22" stroke-width="2"/>
+  <path d="M1065 390H1608" stroke="#F8FAFC" stroke-opacity="0.12" stroke-width="2"/>
+  <g filter="url(#shadow)">
+    <rect x="126" y="112" width="376" height="376" rx="86" fill="#071326" stroke="url(#signal)" stroke-width="6"/>
+    <path d="M210 398L314 152L418 398" stroke="url(#signal)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M252 346L314 208L376 346" stroke="#F8FAFC" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M190 338H438" stroke="#F6C659" stroke-width="11" stroke-linecap="round"/>
+    <path d="M228 398L300 320L332 356L404 282" stroke="#4DE3B3" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="314" cy="304" r="55" fill="#020617" fill-opacity="0.62" stroke="#7DD3FC" stroke-width="7"/>
+    <circle cx="314" cy="304" r="22" fill="#F8FAFC"/>
+  </g>
+  <text x="590" y="194" fill="#F8FAFC" font-family="Aptos, Segoe UI, Helvetica, Arial, sans-serif" font-size="96" font-weight="850" letter-spacing="-3">Project Sombra</text>
+  <text x="594" y="255" fill="#A7F3D0" font-family="Aptos, Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="800" letter-spacing="4">SOLANA RISK INTELLIGENCE</text>
+  <text x="594" y="324" fill="#D9E4F2" font-family="Aptos, Segoe UI, Helvetica, Arial, sans-serif" font-size="34" font-weight="520">Screen wallets, inspect transactions, and record AML evidence before funds move.</text>
+  <g font-family="Aptos, Segoe UI, Helvetica, Arial, sans-serif" font-size="24" font-weight="800">
+    <rect x="594" y="380" width="206" height="54" rx="27" fill="#4DE3B3"/>
+    <text x="697" y="416" fill="#052E1D" text-anchor="middle">Live RPC</text>
+    <rect x="820" y="380" width="268" height="54" rx="27" fill="#111827" stroke="#6EE7B7" stroke-opacity="0.55"/>
+    <text x="954" y="416" fill="#D1FAE5" text-anchor="middle">Risk heuristics</text>
+    <rect x="1108" y="380" width="232" height="54" rx="27" fill="#111827" stroke="#F6C659" stroke-opacity="0.55"/>
+    <text x="1224" y="416" fill="#FEF3C7" text-anchor="middle">Audit trail</text>
+  </g>
+  <g opacity="0.78">
+    <rect x="1398" y="126" width="216" height="118" rx="20" fill="#0B1220" stroke="#334155"/>
+    <text x="1422" y="170" fill="#94A3B8" font-family="IBM Plex Mono, Consolas, monospace" font-size="18" font-weight="700">TX RISK</text>
+    <text x="1422" y="213" fill="#F6C659" font-family="IBM Plex Mono, Consolas, monospace" font-size="38" font-weight="800">77</text>
+    <rect x="1398" y="270" width="216" height="118" rx="20" fill="#0B1220" stroke="#334155"/>
+    <text x="1422" y="314" fill="#94A3B8" font-family="IBM Plex Mono, Consolas, monospace" font-size="18" font-weight="700">GUARDRAIL</text>
+    <text x="1422" y="357" fill="#F8FAFC" font-family="IBM Plex Mono, Consolas, monospace" font-size="29" font-weight="800">REVIEW</text>
+  </g>
+</svg>

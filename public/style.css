@@ -1659,6 +1659,34 @@ body {
   overflow-wrap: anywhere;
 }
 
+.history-entry-action {
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.history-entry-action:hover,
+.history-entry-action:focus-visible {
+  border-color: rgba(80, 200, 140, 0.55);
+  background: rgba(80, 200, 140, 0.06);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.history-entry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px !important;
+  color: #b6c2dc;
+  font-size: 0.82rem;
+}
+
+.history-rerun-btn {
+  flex: 0 0 auto;
+}
+
 .truth-label {
   display: inline-flex;
   align-items: center;

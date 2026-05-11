@@ -1,0 +1,46 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Sombra logo mark</title>
+  <desc id="desc">Square Sombra identity mark for Solana risk intelligence.</desc>
+  <defs>
+    <linearGradient id="bg" x1="180" y1="90" x2="1040" y2="1120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0D1B2A"/>
+      <stop offset="0.48" stop-color="#111827"/>
+      <stop offset="1" stop-color="#030712"/>
+    </linearGradient>
+    <linearGradient id="signal" x1="245" y1="230" x2="940" y2="990" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4DE3B3"/>
+      <stop offset="0.5" stop-color="#39A8FF"/>
+      <stop offset="1" stop-color="#F6C659"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="300" y1="260" x2="880" y2="940" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1F2937" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#050A12" stop-opacity="0.98"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(600 560) rotate(90) scale(520)">
+      <stop stop-color="#4DE3B3" stop-opacity="0.26"/>
+      <stop offset="0.56" stop-color="#39A8FF" stop-opacity="0.1"/>
+      <stop offset="1" stop-color="#030712" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="120" y="120" width="960" height="960" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="42" stdDeviation="48" flood-color="#000814" flood-opacity="0.55"/>
+    </filter>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" stroke="#94A3B8" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="1200" rx="260" fill="url(#bg)"/>
+  <rect width="1200" height="1200" rx="260" fill="url(#grid)"/>
+  <circle cx="600" cy="560" r="520" fill="url(#halo)"/>
+  <g filter="url(#shadow)">
+    <rect x="218" y="218" width="764" height="764" rx="172" fill="url(#panel)" stroke="url(#signal)" stroke-width="10"/>
+    <path d="M382 810L600 292L818 810" stroke="url(#signal)" stroke-width="56" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M468 700L600 408L732 700" stroke="#F8FAFC" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M344 682H856" stroke="#F6C659" stroke-width="22" stroke-linecap="round"/>
+    <path d="M420 812L570 652L632 724L782 568" stroke="#4DE3B3" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="600" cy="610" r="112" fill="#020617" fill-opacity="0.58" stroke="#7DD3FC" stroke-width="13"/>
+    <circle cx="600" cy="610" r="45" fill="#F8FAFC"/>
+    <rect x="536" y="906" width="128" height="34" rx="17" fill="#F6C659"/>
+  </g>
+  <path d="M232 1012H968" stroke="#E2E8F0" stroke-opacity="0.2" stroke-width="2"/>
+  <text x="600" y="1083" fill="#F8FAFC" font-family="Aptos, Segoe UI, Helvetica, Arial, sans-serif" font-size="88" font-weight="800" text-anchor="middle" letter-spacing="9">SOMBRA</text>
+</svg>

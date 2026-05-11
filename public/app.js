@@ -799,18 +799,68 @@ function renderHistory() {
     return;
   }
   recentChecks.innerHTML = "";
-  history.forEach((item) => {
+  history.forEach((item, index) => {
     const entry = document.createElement("article");
-    entry.className = "history-entry";
+    entry.className = "history-entry history-entry-action";
+    entry.tabIndex = 0;
+    entry.setAttribute("role", "button");
+    entry.setAttribute("aria-label", `Restore ${item.level || "risk"} check for ${compactAddress(item.wallet || "", 6)}`);
     const sourceLabel = getReadableDataSource(item.sourceLabel || item.dataSource || item.contextSource);
     entry.innerHTML = `
       <p><strong>${escapeHtml(item.level).toUpperCase()}</strong> (${escapeHtml(item.score)}) - ${escapeHtml(item.at)}</p>
       <p>${escapeHtml(item.wallet)} - ${escapeHtml(item.direction).toUpperCase()} - ${escapeHtml(item.amount)} ${escapeHtml(item.asset)}</p>
       <p><span class="truth-label">${escapeHtml(sourceLabel)}</span></p>
       <p>${escapeHtml(item.recommendation)}</p>
+      <p class="history-entry-actions">
+        <span>Click to restore this check</span>
+        <button type="button" class="copy-inline history-rerun-btn" data-history-rerun="${index}">Re-run</button>
+      </p>
     `;
+    entry.addEventListener("click", (event) => {
+      if (event.target.closest("[data-history-rerun]")) {
+        return;
+      }
+      restoreHistoryCheck(item, false);
+    });
+    entry.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+      event.preventDefault();
+      restoreHistoryCheck(item, false);
+    });
+    const rerunButton = entry.querySelector("[data-history-rerun]");
+    if (rerunButton) {
+      rerunButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        restoreHistoryCheck(item, true);
+      });
+    }
     recentChecks.appendChild(entry);
   });
+}
+
+function restoreHistoryCheck(item, shouldRun = false) {
+  if (!item) {
+    return;
+  }
+  fillForm({
+    direction: item.direction || "send",
+    wallet: item.wallet || "",
+    amount: item.amount || "",
+    asset: item.asset || "SOL",
+    metadata: item.metadata || item.context || null
+  });
+  setWorkflowPanel("risk");
+  const walletInput = document.getElementById("wallet");
+  if (walletInput) {
+    walletInput.focus();
+  }
+  if (shouldRun && form) {
+    form.requestSubmit();
+    return;
+  }
+  setStatusPanel("<p>Recent check restored. Review the values, then run a fresh check when ready.</p>", false, false);
 }
 
 function formatAuditEvent(event) {
